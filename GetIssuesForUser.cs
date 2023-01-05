@@ -69,7 +69,7 @@ namespace groverale.Function
 
             // todo change to post to simplfy URL 
             // https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/#searching-for-issues-examples
-            var issuesRequest = await client.GetAsync($"/rest/api/3/search?jql={jqlField}='{userEmail}' AND status IN ('To Do', 'In Progress')+order+by+duedate&fields=id,key,created,summary,status,resolution,dueDate,project,assignee,reporter");
+            var issuesRequest = await client.GetAsync($"/rest/api/3/search?jql={jqlField}='{userEmail}' AND status IN ('To Do', 'In Progress')+order+by+duedate&fields=id,key,created,summary,status,resolution,duedate,project,assignee,reporter");
 
             var issueReponseData = await JiraHelpers.ReadResposneData(issuesRequest);
 
@@ -95,22 +95,29 @@ namespace groverale.Function
                     Title = issue?.fields?.summary,
                     Description = string.Empty,
                     StatusText = issue?.fields?.status?.name,
-                    StatusCategoryKey = issue?.fields?.status?.statusCategory?.key
+                    StatusCategoryKey = issue?.fields?.status?.statusCategory?.key,
+                    OverDueDays = string.Empty,
+                    Duedate = issue?.fields?.duedate
                 };
+
+                // format the date to ISO - Oh Jira why do you make this harder
+                var createdDate = DateTime.Parse(jIssue.Created); 
+                jIssue.Created = createdDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture);
 
                 if (issue?.fields?.resolution != null)
                 {
                     jIssue.Resolved = true;
                 }
 
-                if (issue?.fields?.dueDate != null)
+                if (jIssue.Duedate != null)
                 {
-                    jIssue.DueDate = DateTime.Parse(issue?.fields?.dueDate); 
+                    var duedate = DateTime.Parse(jIssue.Duedate); 
+                    jIssue.Duedate = duedate.ToString("s", System.Globalization.CultureInfo.InvariantCulture);
 
                     // overdue
-                    if (DateTime.Now > jIssue.DueDate)  
+                    if (DateTime.Now > duedate)  
                     {
-                        jIssue.OverDueDays = (DateTime.Now - jIssue.DueDate).Days.ToString();
+                        jIssue.OverDueDays = (DateTime.Now - duedate).Days.ToString();
                     }             
                 }
 

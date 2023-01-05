@@ -15,7 +15,7 @@ namespace groverale.Function
         public bool Resolved { get; set; }
         public JiraUser Reporter {get;set;}
         public JiraUser Assignee {get;set;}
-        public System.DateTime DueDate {get;set;}
+        public string Duedate {get;set;}
         public string OverDueDays {get;set;}
     }
 
