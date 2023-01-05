@@ -16,7 +16,7 @@ namespace groverale.Function
         public JiraUser Reporter {get;set;}
         public JiraUser Assignee {get;set;}
         public System.DateTime DueDate {get;set;}
-        public int OverDueDays {get;set;}
+        public string OverDueDays {get;set;}
     }
 
     public class JiraProject 

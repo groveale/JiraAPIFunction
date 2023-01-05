@@ -110,7 +110,7 @@ namespace groverale.Function
                     // overdue
                     if (DateTime.Now > jIssue.DueDate)  
                     {
-                        jIssue.OverDueDays = (DateTime.Now - jIssue.DueDate).Days;
+                        jIssue.OverDueDays = (DateTime.Now - jIssue.DueDate).Days.ToString();
                     }             
                 }
 
