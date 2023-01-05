@@ -101,8 +101,9 @@ namespace groverale.Function
                 };
 
                 // format the date to ISO - Oh Jira why do you make this harder
+                // Need to add a Z for adative card date formating
                 var createdDate = DateTime.Parse(jIssue.Created); 
-                jIssue.Created = createdDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture);
+                jIssue.Created = createdDate.ToString("yyyy-MM-ddTHH:mm:sszzzz");
 
                 if (issue?.fields?.resolution != null)
                 {
@@ -112,7 +113,7 @@ namespace groverale.Function
                 if (jIssue.Duedate != null)
                 {
                     var duedate = DateTime.Parse(jIssue.Duedate); 
-                    jIssue.Duedate = duedate.ToString("s", System.Globalization.CultureInfo.InvariantCulture);
+                    jIssue.Duedate = duedate.ToString("yyyy-MM-ddTHH:mm:sszzzz");
 
                     // overdue
                     if (DateTime.Now > duedate)  
