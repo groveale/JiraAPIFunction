@@ -13,6 +13,9 @@ namespace groverale.Function
         public string StatusCategoryKey { get; set; }
         public JiraProject Project  {get; set; }
         public bool Resolved { get; set; }
+        public JiraUser Reporter {get;set;}
+        public JiraUser Assignee {get;set;}
+        public System.DateTime DueDate {get;set;}
     }
 
     public class JiraProject 
@@ -21,6 +24,14 @@ namespace groverale.Function
         public string Key { get; set; } 
         public string Name { get; set; }  
         public string AvatarUri { get; set; }  
+    }
+
+    public class JiraUser 
+    {
+        public string Name { get; set; }  
+        public string AvatarUri { get; set; } 
+        public string Email { get; set; }  
+        public string TimeZone { get; set; }  
     }
     
     public class ACEResponse 

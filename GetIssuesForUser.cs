@@ -101,6 +101,11 @@ namespace groverale.Function
                     jIssue.Resolved = true;
                 }
 
+                if (issue?.fields?.dueDate != null)
+                {
+                    jIssue.DueDate = DateTime.Parse(issue?.fields?.dueDate);                
+                }
+                
                 JiraProject jProject = new JiraProject
                 {
                     Id = issue?.fields?.project?.id,
@@ -108,8 +113,29 @@ namespace groverale.Function
                     Name = issue?.fields?.project?.name,
                     AvatarUri = issue?.fields?.project?.avatarUrls["24x24"]
                 };
-
                 jIssue.Project = jProject;
+
+                // User info
+                JiraUser assignee = new JiraUser
+                {
+                    Name = issue?.fields?.assignee?.displayName,
+                    AvatarUri = issue?.fields?.assignee?.avatarUrls["24x24"],
+                    TimeZone = issue?.fields?.assignee?.timeZone,
+                };
+                if (assignedIssues)
+                {
+                    assignee.Email = userEmail;
+                }
+                jIssue.Assignee = assignee;
+
+                JiraUser reporter = new JiraUser
+                {
+                    Name = issue?.fields?.reporter?.displayName,
+                    AvatarUri = issue?.fields?.reporter?.avatarUrls["24x24"],
+                    Email = issue?.fields?.reporter?.emailAddress,
+                    TimeZone = issue?.fields?.reporter?.timeZone,
+                };
+                jIssue.Reporter = reporter;
 
                 jIssuesAssignedToUser.Add(jIssue);
             }
