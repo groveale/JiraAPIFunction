@@ -67,7 +67,9 @@ namespace groverale.Function
                 jqlField = "reporter";
             }
 
-            var issuesRequest = await client.GetAsync($"/rest/api/3/search?jql={jqlField}='{userEmail}'");
+            // todo change to post to simplfy URL 
+            // https://developer.atlassian.com/server/jira/platform/jira-rest-api-examples/#searching-for-issues-examples
+            var issuesRequest = await client.GetAsync($"/rest/api/3/search?jql={jqlField}='{userEmail}' AND status IN ('To Do', 'In Progress')+order+by+duedate&fields=id,key,created,summary,status,resolution,dueDate,project,assignee,reporter");
 
             var issueReponseData = await JiraHelpers.ReadResposneData(issuesRequest);
 
