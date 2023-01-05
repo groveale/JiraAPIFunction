@@ -103,9 +103,15 @@ namespace groverale.Function
 
                 if (issue?.fields?.dueDate != null)
                 {
-                    jIssue.DueDate = DateTime.Parse(issue?.fields?.dueDate);                
+                    jIssue.DueDate = DateTime.Parse(issue?.fields?.dueDate); 
+
+                    // overdue
+                    if (DateTime.Now > jIssue.DueDate)  
+                    {
+                        jIssue.OverDueDays = (DateTime.Now - jIssue.DueDate).Days;
+                    }             
                 }
-                
+
                 JiraProject jProject = new JiraProject
                 {
                     Id = issue?.fields?.project?.id,
